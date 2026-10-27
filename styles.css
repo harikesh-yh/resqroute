@@ -1,0 +1,270 @@
+/*
+ * Projector-first. Type floors and contrast come from productSpec.md §14:
+ * nothing below 14px, body at 16px, stats numerals at 24px, AA contrast on the
+ * dark ground. Colour is always the third channel, never the only one.
+ */
+
+:root {
+  --bg: #070a0f;
+  --panel: #0d1219;
+  --panel-edge: #1c2836;
+  --ink: #e8eef7;
+  --ink-dim: #8fa3bd;
+  --fire: #ff5a3c;
+  --medical: #2ee6a8;
+  --police: #4d9dff;
+  --warn: #ffb347;
+  --gap: 10px;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.45 ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100%;
+  gap: var(--gap);
+  padding: var(--gap);
+}
+
+/* ---------- header ---------- */
+
+.app-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.app-head h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.head-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+.clock {
+  font-size: 20px;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.badge {
+  padding: 2px 8px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+}
+
+.badge.up {
+  color: var(--medical);
+}
+
+.badge.down {
+  color: var(--warn);
+}
+
+.badge.replay {
+  color: var(--police);
+}
+
+/* ---------- layout ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  grid-template-rows: 1fr 150px;
+  grid-template-areas:
+    'map side'
+    'stats feed';
+  gap: var(--gap);
+  min-height: 0;
+}
+
+.map-cell {
+  grid-area: map;
+  min-height: 0;
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.side {
+  grid-area: side;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--gap);
+  min-height: 0;
+}
+
+.stats-cell {
+  grid-area: stats;
+}
+
+.feed-cell {
+  grid-area: feed;
+}
+
+.map,
+.map.placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.map.placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--ink-dim);
+}
+
+/* ---------- panels ---------- */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--panel);
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+}
+
+.panel.grow {
+  min-height: 0;
+  flex: 1;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--panel-edge);
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px 12px;
+}
+
+.empty {
+  margin: 0;
+  color: var(--ink-dim);
+  font-size: 14px;
+}
+
+/* ---------- resources ---------- */
+
+.resources {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resource {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.resource-name {
+  font-size: 14px;
+  color: var(--ink-dim);
+}
+
+.resource-bar {
+  display: flex;
+  gap: 3px;
+}
+
+.pip {
+  display: block;
+  width: 100%;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.pip.busy {
+  background: #1c2836;
+}
+
+/* Strain is announced by a border as well as by hue, so it survives a
+   colour-vision deficiency and a badly calibrated projector alike. */
+.resource-bar.strained .pip.busy {
+  box-shadow: inset 0 0 0 1px var(--warn);
+}
+
+.resource-count {
+  font-size: 16px;
+  font-weight: 650;
+}
+
+/* ---------- footer ---------- */
+
+.disclaimer {
+  padding: 6px 10px;
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--ink-dim);
+  font-size: 14px;
+}
+
+.disclaimer strong {
+  color: var(--warn);
+}
+
+/* ---------- motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

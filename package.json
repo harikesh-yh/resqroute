@@ -1,0 +1,20 @@
+{
+  "name": "resqroute",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ResQroute — Disaster Response Multi-Agent Simulator",
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "pnpm --filter @sim/server test",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

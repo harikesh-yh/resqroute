@@ -1,0 +1,35 @@
+node_modules/
+dist/
+.env
+*.log
+.memsearch/
+.serena/
+
+# Map assets are fetched, not authored: `pnpm --filter @sim/server tiles`.
+# Vendor them deliberately if you want a zero-setup clone — see
+# server/scripts/fetch-map-assets.mjs.
+server/tiles/*.pmtiles
+server/assets/
+
+# GitHub safety: local secrets, credentials, and generated artifacts
+.env
+.env.*
+!.env.example
+!.env.template
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+Thumbs.db
+node_modules/
+dist/
+build/
+coverage/
+.next/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.log
